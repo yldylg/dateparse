@@ -515,8 +515,10 @@ iterRunes:
 		case dateDigitChineseYearWm:
 			// 2013年07月18日 星期四 10:27:30 上午
 			if r == ':' {
-				p.stateDate = dateDigitChineseYearWs
-				break
+				if strings.Count(string(datestr[i:]), ":") >= 2 {
+					p.stateDate = dateDigitChineseYearWs
+					break
+				}
 			}
 		case dateDigitDot:
 			// This is the 2nd period

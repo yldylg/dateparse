@@ -50,6 +50,7 @@ const (
 	dateDigitDotDot
 	dateDigitSlash
 	dateDigitChineseYear
+	dateDigitChineseYearWm
 	dateDigitChineseYearWs
 	dateDigitWs // 15
 	dateDigitWsMoYear
@@ -508,6 +509,12 @@ iterRunes:
 			//               weekday  %Y年%m月%e日 %A %I:%M %p
 			// 2013年07月18日 星期四 10:27 上午
 			if r == ' ' {
+				p.stateDate = dateDigitChineseYearWm
+				break
+			}
+		case dateDigitChineseYearWm:
+			// 2013年07月18日 星期四 10:27:30 上午
+			if r == ':' {
 				p.stateDate = dateDigitChineseYearWs
 				break
 			}
@@ -1644,6 +1651,10 @@ iterRunes:
 		// dateDigitChineseYear
 		//   2014年04月08日
 		p.format = []byte("2006年01月02日")
+		return p, nil
+
+	case dateDigitChineseYearWm:
+		p.format = []byte("2006年01月02日 15:04")
 		return p, nil
 
 	case dateDigitChineseYearWs:
